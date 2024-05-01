@@ -1,0 +1,17 @@
+config {
+    type: "operations",
+    schema: "chinook_report"
+}
+
+INSERT INTO
+  chinook_report.bestseller_track
+SELECT
+  track_name,
+  SUM(total_amount) AS total_amount,
+  CURRENT_DATE() AS snapshot_date
+FROM
+  ${ref("raw_invoices")}
+GROUP BY
+  track_name
+ORDER BY
+  total_amount DESC

@@ -1,0 +1,15 @@
+config {
+    type: "incremental",
+    schema: "chinook_report"
+}
+
+SELECT
+  track_name,
+  SUM(total_amount) AS total_amount,
+  CURRENT_DATE() AS snapshot_date
+FROM
+  ${ref("raw_invoices")} ${when(incremental(), `WHERE snapshot_date > (SELECT MAX(snapshot_date) FROM ${self()})`)}
+GROUP BY
+  track_name
+ORDER BY
+  total_amount DESC

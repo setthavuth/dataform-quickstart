@@ -1,0 +1,24 @@
+config {
+    type: "view"
+}
+
+SELECT
+  item.InvoiceId AS invoice_id,
+  header.InvoiceDate AS invoice_date,
+  header.CustomerId AS customer_id,
+  item.InvoiceLineId AS invoice_line_id,
+  item.TrackId AS track_id,
+  trck.Name AS track_name,
+  item.UnitPrice AS unit_price,
+  item.Quantity AS quantity,
+  item.UnitPrice * item.Quantity AS total_amount
+FROM
+  chinook.invoice_items item
+INNER JOIN
+  chinook.invoices header
+ON
+  item.InvoiceId = header.InvoiceId
+INNER JOIN
+  chinook.tracks trck
+ON
+  item.TrackId = trck.TrackId
