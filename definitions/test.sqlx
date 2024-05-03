@@ -1,0 +1,6 @@
+config {
+    type: "operations"
+}
+
+INSERT INTO
+SELECT 3 AS id
